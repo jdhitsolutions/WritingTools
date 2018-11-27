@@ -24,4 +24,6 @@ I have used [MarkdownPad](http://www.markdownpad.com/) in the past before I swit
 
 If you are running Windows 8 or later, you can take advantage of Hyper-V to create a virtual environment. You can create Windows virtual machines with evaluation copies of Microsoft products. Other options you might consider are [VMware Workstation](https://www.vmware.com/products/workstation-pro.html) or [VMware Fusion](https://www.vmware.com/products/fusion.html) for those of you of the Apple persuasion. An open source option I've used in the past is [VirtualBox](https://www.virtualbox.org/)
 
+And just as I posted this I saw a terrific article on [building a Windows server lab on an Intel NUC](https://www.thomasmaurer.ch/2018/11/windows-server-lab-intel-nuc/).
+
 _last update 27 November, 2018_
