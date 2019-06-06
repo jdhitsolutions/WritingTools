@@ -11,4 +11,4 @@ You might also want to look through a series of blog posts on the subject of wri
 
 Feel free to use the Issues section to share your own tips and tricks or ask for advice.
 
-_last update 27 November, 2018_
+_last update 6 June 2019_

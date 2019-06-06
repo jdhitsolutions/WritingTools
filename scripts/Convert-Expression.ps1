@@ -1,7 +1,7 @@
 ﻿
 
 Function Convert-Expression {
-    <#
+<#
 .Synopsis
 A function to spoof command line output
 .Description
@@ -33,7 +33,7 @@ The screen will be cleared after running the intial command. Replacements are ma
         [string]$Expression,
         [Parameter(HelpMessage = "Enter the path to a psd1 file with case-sensitive replacements")]
         [ValidateNotNullorEmpty()]
-        [ValidateScript("Test-Path $_")]
+        [ValidateScript({Test-Path $_})]
         [hashtable]$ConfigurationData = $(import-powershelldatafile "$psscriptroot\spoofs.psd1")
     )
 
