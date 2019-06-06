@@ -1,6 +1,7 @@
 ﻿
 
 Function Convert-Expression {
+
 <#
 .Synopsis
 A function to spoof command line output
@@ -33,8 +34,8 @@ The screen will be cleared after running the intial command. Replacements are ma
         [string]$Expression,
         [Parameter(HelpMessage = "Enter the path to a psd1 file with case-sensitive replacements")]
         [ValidateNotNullorEmpty()]
-        [ValidateScript({Test-Path $_})]
-        [hashtable]$ConfigurationData = $(import-powershelldatafile "$psscriptroot\spoofs.psd1")
+        [ValidateScript( {Test-Path $_})]
+        [string]$ConfigurationData = "$psscriptroot\spoofs.psd1"
     )
 
     Begin {
@@ -45,7 +46,10 @@ The screen will be cleared after running the intial command. Replacements are ma
         Write-Verbose "Out = $out"
         Write-Verbose "In = $in"
         Write-Verbose "Getting replacement strings from $ConfigurationData"
-        $replacements = $ConfigurationData
+        [hashtable]$replacements = $(Import-PowerShellDataFile $ConfigurationData )
+
+        Write-Verbose ($replacements | Out-String)
+
     } #begin
 
     Process {
@@ -63,6 +67,7 @@ The screen will be cleared after running the intial command. Replacements are ma
             $replacements.GetEnumerator() | foreach-object {
                 #make case sensitive changes
                 $m = $_.key -replace "_#\d", ""
+                write-Verbose "Replacing \b$m\b with $($_.value)"
                 $content = $content -creplace "\b$m\b", $_.Value
                 $Expression = $Expression -creplace "\b$m\b", $_.Value
             }
@@ -88,6 +93,14 @@ The screen will be cleared after running the intial command. Replacements are ma
     } #Process
 
     End {
+        if (Test-Path $in) {
+            Write-Verbose "Removing $in"
+            Remove-Item $in
+        }
+        if (Test-Path $out) {
+            Write-Verbose "Removing $out"
+            Remove-Item $out
+        }
         Write-Verbose "Ending $($MyInvocation.Mycommand)"
     } #end
 
