@@ -1,7 +1,7 @@
 ﻿
 
 Function Convert-Expression {
-<#
+    <#
 .Synopsis
 A function to spoof command line output
 .Description
@@ -19,7 +19,7 @@ Name                                           Type   TTL   Section    IPAddress
 ----                                           ----   ---   -------    ---------
 corp.com                                       A      2526  Answer     10.11.12.13
 
-The screen will be cleared after running the intial command. Replacements are made using the default spoof.psd1 file
+The screen will be cleared after running the intial command. Replacements are made using the default spoof.psd1 file.test
 #>
     [cmdletbinding(SupportsShouldProcess)]
     [Alias("spoof")]
@@ -31,14 +31,15 @@ The screen will be cleared after running the intial command. Replacements are ma
         [Alias("commandline")]
         [ValidateNotNullorEmpty()]
         [string]$Expression,
-        [Parameter(HelpMessage = "Enter the path to a psd1 file with case sensitive replacements")]
+        [Parameter(HelpMessage = "Enter the path to a psd1 file with case-sensitive replacements")]
         [ValidateNotNullorEmpty()]
+        [ValidateScript("Test-Path $_")]
         [hashtable]$ConfigurationData = $(import-powershelldatafile "$psscriptroot\spoofs.psd1")
     )
 
     Begin {
-        Write-Verbose "Starting $($MyInvocation.Mycommand)" 
-        #define temp files 
+        Write-Verbose "Starting $($MyInvocation.Mycommand)"
+        #define temp files
         $out = Join-Path -Path $env:temp -ChildPath 'out.xml'
         $in = Join-Path -Path $env:temp -ChildPath 'in.xml'
         Write-Verbose "Out = $out"
@@ -48,7 +49,7 @@ The screen will be cleared after running the intial command. Replacements are ma
     } #begin
 
     Process {
-        #run the expression and export 
+        #run the expression and export
         Write-Verbose $expression
 
         if ($PSCmdlet.ShouldProcess($Expression)) {
@@ -62,7 +63,7 @@ The screen will be cleared after running the intial command. Replacements are ma
             $replacements.GetEnumerator() | foreach-object {
                 #make case sensitive changes
                 $m = $_.key -replace "_#\d", ""
-                $content = $content -creplace "\b$m\b", $_.Value  
+                $content = $content -creplace "\b$m\b", $_.Value
                 $Expression = $Expression -creplace "\b$m\b", $_.Value
             }
 
